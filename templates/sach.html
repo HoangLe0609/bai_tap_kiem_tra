@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Quản lý sách{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>QUẢN LÝ SÁCH</h3>
+
+    <a href="{{ url_for('them_sach') }}"
+       class="btn btn-primary">
+        + Thêm sách
+    </a>
+</div>
+
+<!-- Lọc sách theo danh mục -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+
+        <form method="GET" action="{{ url_for('sach_list') }}"
+              class="row align-items-end">
+
+            <div class="col-md-5">
+                <label class="form-label">Chọn danh mục</label>
+
+                <select name="danh_muc_id" class="form-select">
+                    <option value="">-- Tất cả danh mục --</option>
+
+                    {% for dm in danh_mucs %}
+                    <option value="{{ dm.id }}"
+                        {% if danh_muc_id == dm.id %}selected{% endif %}>
+                        {{ dm.ten_danh_muc }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-auto d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    Lọc sách
+                </button>
+
+                <a href="{{ url_for('sach_list') }}"
+                   class="btn btn-secondary">
+                    Làm mới
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<!-- Danh sách sách -->
+<div class="card shadow">
+    <div class="card-body">
+
+        <table class="table table-bordered table-hover align-middle">
+
+            <thead class="table-primary">
+                <tr>
+                    <th>STT</th>
+                    <th>Tên sách</th>
+                    <th>Tác giả</th>
+                    <th>Danh mục</th>
+                    <th>Năm XB</th>
+                    <th>Giá bán</th>
+                    <th>Số lượng</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for sach in sachs %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ sach.ten_sach }}</td>
+                    <td>{{ sach.tac_gia }}</td>
+                    <td>{{ sach.danh_muc.ten_danh_muc }}</td>
+                    <td>{{ sach.nam_xuat_ban }}</td>
+                    <td>{{ "{:,.0f}".format(sach.gia_ban) }} đ</td>
+                    <td>{{ sach.so_luong }}</td>
+
+                    <td class="text-center">
+
+                        <a href="{{ url_for('sua_sach', id=sach.id) }}"
+                           class="btn btn-warning btn-sm">
+                            Sửa
+                        </a>
+
+                        <form method="POST"
+                              action="{{ url_for('xoa_sach', id=sach.id) }}"
+                              class="d-inline"
+                              onsubmit="return confirm('Bạn có chắc chắn muốn xóa sách này?')">
+
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm">
+                                Xóa
+                            </button>
+
+                        </form>
+
+                    </td>
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="8" class="text-center text-muted">
+                        Không có sách trong danh mục này.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

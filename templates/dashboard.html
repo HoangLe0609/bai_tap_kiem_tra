@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Quản lý sách{% endblock %}
+
+{% block content %}
+
+<h3 class="mb-4">DASHBOARD QUẢN LÝ SÁCH</h3>
+
+<!-- Các thẻ thống kê -->
+<div class="row g-3 mb-4">
+
+    <!-- Tổng số danh mục -->
+    <div class="col-md-4">
+        <div class="card text-white bg-primary shadow">
+            <div class="card-body">
+                <h6 class="card-title">Tổng số danh mục</h6>
+                <h2>{{ so_danh_muc }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tổng số đầu sách -->
+    <div class="col-md-4">
+        <div class="card text-white bg-success shadow">
+            <div class="card-body">
+                <h6 class="card-title">Tổng số đầu sách</h6>
+                <h2>{{ so_dau_sach }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tổng số lượng sách -->
+    <div class="col-md-4">
+        <div class="card text-white bg-warning shadow">
+            <div class="card-body">
+                <h6 class="card-title">Tổng số lượng sách</h6>
+                <h2>{{ tong_so_luong }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Thống kê sách theo danh mục -->
+<div class="card shadow mb-4">
+
+    <div class="card-header bg-white">
+        <h5 class="mb-0">Thống kê sách theo danh mục</h5>
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-bordered table-hover">
+
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 60px">STT</th>
+                    <th>Tên danh mục</th>
+                    <th style="width: 180px">Số đầu sách</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for item in thong_ke_danh_muc %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ item.ten_danh_muc }}</td>
+                    <td>{{ item.so_dau_sach }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted">
+                        Chưa có danh mục sách.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+
+<!-- Danh sách 5 sách mới nhất -->
+<div class="card shadow mb-4">
+
+    <div class="card-header bg-white">
+        <h5 class="mb-0">5 sách được thêm gần đây</h5>
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-bordered table-hover">
+
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 60px">STT</th>
+                    <th>Tên sách</th>
+                    <th>Tác giả</th>
+                    <th>Danh mục</th>
+                    <th>Giá bán</th>
+                    <th>Số lượng</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for sach in sach_moi %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ sach.ten_sach }}</td>
+                    <td>{{ sach.tac_gia }}</td>
+                    <td>{{ sach.danh_muc.ten_danh_muc }}</td>
+                    <td>{{ "{:,.0f}".format(sach.gia_ban) }} đ</td>
+                    <td>{{ sach.so_luong }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">
+                        Chưa có sách trong hệ thống.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+
+{% endblock %}

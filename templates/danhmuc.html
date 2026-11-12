@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Quản lý danh mục sách{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>QUẢN LÝ DANH MỤC SÁCH</h3>
+
+    <a href="{{ url_for('them_danh_muc') }}"
+       class="btn btn-primary">
+        + Thêm danh mục
+    </a>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <table class="table table-bordered table-hover align-middle">
+
+            <thead class="table-primary">
+                <tr>
+                    <th style="width: 60px">STT</th>
+                    <th>Tên danh mục</th>
+                    <th>Mô tả</th>
+                    <th style="width: 130px">Số đầu sách</th>
+                    <th style="width: 180px">Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for dm in danh_mucs %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+
+                    <td>{{ dm.ten_danh_muc }}</td>
+
+                    <td>{{ dm.mo_ta or '' }}</td>
+
+                    <td class="text-center">
+                        {{ dm.sach|length }}
+                    </td>
+
+                    <td class="text-center">
+
+                        <a href="{{ url_for('sua_danh_muc', id=dm.id) }}"
+                           class="btn btn-warning btn-sm">
+                            Sửa
+                        </a>
+
+                        <form method="POST"
+                              action="{{ url_for('xoa_danh_muc', id=dm.id) }}"
+                              class="d-inline"
+                              onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này?')">
+
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm">
+                                Xóa
+                            </button>
+
+                        </form>
+
+                    </td>
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="5" class="text-center text-muted">
+                        Chưa có danh mục sách nào.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

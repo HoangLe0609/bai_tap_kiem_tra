@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Sửa danh mục sách{% endblock %}
+
+{% block content %}
+
+<h3 class="mb-4">CẬP NHẬT DANH MỤC SÁCH</h3>
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <form method="POST">
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Tên danh mục
+                </label>
+
+                <input type="text"
+                       name="ten_danh_muc"
+                       class="form-control"
+                       maxlength="100"
+                       value="{{ danh_muc.ten_danh_muc }}"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Mô tả
+                </label>
+
+                <textarea name="mo_ta"
+                          class="form-control"
+                          rows="3"
+                          maxlength="255">{{ danh_muc.mo_ta or '' }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Cập nhật
+            </button>
+
+            <a href="{{ url_for('danh_muc_list') }}"
+               class="btn btn-secondary">
+                Quay lại
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

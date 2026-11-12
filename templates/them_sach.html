@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Thêm sách{% endblock %}
+
+{% block content %}
+
+<h3 class="mb-4">THÊM SÁCH MỚI</h3>
+
+<div class="card shadow">
+    <div class="card-body">
+
+        {% if not danh_mucs %}
+        <div class="alert alert-warning">
+            Chưa có danh mục sách. Vui lòng thêm danh mục trước khi thêm sách.
+        </div>
+
+        <a href="{{ url_for('them_danh_muc') }}"
+           class="btn btn-primary">
+            Thêm danh mục
+        </a>
+
+        {% else %}
+
+        <form method="POST">
+
+            <div class="mb-3">
+                <label class="form-label">Tên sách</label>
+
+                <input type="text"
+                       name="ten_sach"
+                       class="form-control"
+                       maxlength="200"
+                       required
+                       placeholder="Nhập tên sách">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tác giả</label>
+
+                <input type="text"
+                       name="tac_gia"
+                       class="form-control"
+                       maxlength="100"
+                       required
+                       placeholder="Nhập tên tác giả">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Năm xuất bản</label>
+
+                <input type="number"
+                       name="nam_xuat_ban"
+                       class="form-control"
+                       min="1"
+                       required
+                       placeholder="Nhập năm xuất bản">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Giá bán (VNĐ)</label>
+
+                <input type="number"
+                       name="gia_ban"
+                       class="form-control"
+                       min="0"
+                       step="1000"
+                       required
+                       placeholder="Nhập giá bán">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Số lượng</label>
+
+                <input type="number"
+                       name="so_luong"
+                       class="form-control"
+                       min="0"
+                       required
+                       placeholder="Nhập số lượng">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Danh mục sách</label>
+
+                <select name="danh_muc_id"
+                        class="form-select"
+                        required>
+
+                    <option value="">-- Chọn danh mục --</option>
+
+                    {% for dm in danh_mucs %}
+                    <option value="{{ dm.id }}">
+                        {{ dm.ten_danh_muc }}
+                    </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Lưu sách
+            </button>
+
+            <a href="{{ url_for('sach_list') }}"
+               class="btn btn-secondary">
+                Quay lại
+            </a>
+
+        </form>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}
